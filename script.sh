@@ -70,6 +70,9 @@ do
 
 done < "$VAR_TSV"
 
+# create FASTA dictionary file
+gatk CreateSequenceDictionary -R QMS/ALIGNING/reference.fasta
+
 # base quality recalibration with GATK
 while read i j k
 do
@@ -86,9 +89,6 @@ do
 
     # index feature file
     gatk IndexFeatureFile -I QMS/EXPECTED/"$i"_bcftools.vcf
-
-    # create FASTA dictionary file
-    gatk CreateSequenceDictionary -R QMS/ALIGNING/reference.fasta
 
     # base recalibration
     gatk BaseRecalibrator \
@@ -135,7 +135,6 @@ while read i j k
 do
 
     rm -f QMS/ALIGNING/"$i"_sorted.bam \
-        QMS/LOFREQ/"$i"_dindel.bam \
         QMS/RECALIBRATING/"$i"*
 
-done < "$VAT_TSV"
+done < "$VAR_TSV"
